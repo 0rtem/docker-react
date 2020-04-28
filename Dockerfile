@@ -1,20 +1,13 @@
-FROM node:alpine AS builder
+FROM node:alpine
 #start build step
 WORKDIR '/app'
-
-COPY package.json .
-
-
+COPY package*.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
-
 #end build step /app/build working dir
-
 #start prod step
 FROM nginx
-
-COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80
+COPY --from=0 /app/build /usr/share/nginx/html
 #stop prod step
