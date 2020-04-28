@@ -1,0 +1,13 @@
+language: generic
+# super user permisions
+sudo: required
+
+#env on the travis
+services:
+  - docker
+#build step
+before_install:
+  - docker build -t 0rtem/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true 0rtem/docker-react npm run test
